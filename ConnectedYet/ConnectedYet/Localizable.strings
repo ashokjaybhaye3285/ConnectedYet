@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  ConnectedYet
+
+  Created by Ashok D Jaybhaye on 29/03/15.
+  Copyright (c) 2015 MYS. All rights reserved.
+*/
+
+
+"app_name" = "ConnectedYet";
+
+"network_error" = "Please check your network connection";
+"ok" = "OK";
+"enter_otp" = "Please enter your one time password";
+
+"select_country" = "Please select country";
+"last_name" = "Enter last name";
+"first_name" = "Enter first name";
+
+"password_error" = "Please enter password";
+"username_error" = "Please enter username";
+
+"logout_message" = "Are you sure want to logout ?";
+"cancel" = "Cancel";
+"yes" = "Yes";
