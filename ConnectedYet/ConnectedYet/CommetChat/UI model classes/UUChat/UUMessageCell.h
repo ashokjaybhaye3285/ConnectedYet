@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UUMessageContentButton.h"
-
+#import <MediaPlayer/MediaPlayer.h>
 #import "AsyncImageView.h"
 #import "AppDelegate.h"
 
@@ -25,6 +25,9 @@
 @interface UUMessageCell : UITableViewCell
 {
     AppDelegate *appDelegate;
+    MPMoviePlayerController *moviePlayer;
+    NSURL *movieURL;
+    MPMoviePlayerViewController *playerVC;
 }
 
 @property (nonatomic, retain)UILabel *labelTime;

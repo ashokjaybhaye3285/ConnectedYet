@@ -128,19 +128,187 @@
 {
     
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"DefaultAlbum"];
-    NSString *videopath= [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/%@",path,vedioURL]];
-    NSURL *movieURL = [NSURL fileURLWithPath:videopath];
+    if ([vedioURL containsString:@"unencryptedfilename="]) {
+
+    
+        
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:vedioURL]];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        
+        NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"DefaultAlbumServer"];
+        
+        
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+            [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
+        
+        NSString *videopath= [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/server.mp4",dataPath]];
+
+        [imageData writeToFile:videopath atomically:YES];
+        NSLog(@"videopath %@",videopath);
+        
+        movieURL = [NSURL fileURLWithPath:videopath];
+        NSLog(@"movieURL %@",[movieURL absoluteString]);
+
+        
+        
+        NSURL *vedioURL;
+
+        
+        NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:dataPath  error:nil];
+        NSLog(@"files array %@", filePathsArray);
+        
+        NSString *fullpath;
+        
+        for ( NSString *apath in filePathsArray )
+        {
+            fullpath = [documentsDirectory stringByAppendingPathComponent:apath];
+            vedioURL =[NSURL fileURLWithPath:fullpath];
+        }
+        
+        
+        NSArray *paths2 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); //1
+        NSString *documentsDirectory1 = [paths2 objectAtIndex:0]; //2
+//        NSString* file1 = [[NSString alloc]initWithFormat:@"%@",filename1];
+        
+        NSString* path1 = [documentsDirectory1 stringByAppendingPathComponent:@"DefaultAlbumServer/server.mp4"];
+        
+        NSLog(@"vurl %@",path1);
+        movieURL = [NSURL fileURLWithPath:path1];
+
+        MPMoviePlayerViewController *playercontroller = [[MPMoviePlayerViewController alloc] initWithContentURL:movieURL];
+        [appDelegate.nvc presentMoviePlayerViewControllerAnimated:playercontroller];
+        playercontroller.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
+        [playercontroller.moviePlayer play];
+        playercontroller = nil;
+        
+        
+    } else {
+        
+        NSLog(@"videopath %@",vedioURL);
+        
+        movieURL = [NSURL fileURLWithPath:vedioURL];
+        NSLog(@"movieURL %@",[movieURL absoluteString]);
+        
+        MPMoviePlayerViewController *playercontroller = [[MPMoviePlayerViewController alloc] initWithContentURL:movieURL];
+        [appDelegate.nvc presentMoviePlayerViewControllerAnimated:playercontroller];
+        playercontroller.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
+        [playercontroller.moviePlayer play];
+        playercontroller = nil;
+    }
+    
+    
+    
+}
+/*
+-(void)setupMovie:(NSString *)videoURL
+{
+    NSURL *movieURL1 = [NSURL fileURLWithPath:videoURL];
+    
+    mpController =  [[MPMoviePlayerController alloc] initWithContentURL:movieURL1];
+    mpController.scalingMode = MPMovieScalingModeAspectFill;
+    mpController.controlStyle = MPMovieControlStyleNone;
+    mpController.view.frame = appDelegate.nvc.view.frame;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(moviePlayerPlaybackStateDidChange:)  name:MPMediaPlaybackIsPreparedToPlayDidChangeNotification  object:nil];
+    
+    [appDelegate.nvc.view addSubview:mpController.view];
+    [mpController prepareToPlay];
+}
+
+
+- (void)moviePlayBackDidFinish:(MPMoviePlayerController *)player
+{
+    [mpController.view removeFromSuperview];
+}
+
+- (void)moviePlayerPlaybackStateDidChange:(NSNotification*)notification
+{
+    if ( mpController.isPreparedToPlay) {
+        [ mpController play];
+    }
+}
+*/
+
+- (void)playmov:(NSString*)aVideoUrl
+{
+    // Initialize the movie player view controller with a video URL string
+    playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL fileURLWithPath:aVideoUrl]] ;
+    
+    // Remove the movie player view controller from the "playback did finish" notification observers
+    [[NSNotificationCenter defaultCenter] removeObserver:playerVC
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification
+                                                  object:playerVC.moviePlayer];
+    
+    // Register this class as an observer instead
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(movieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:playerVC.moviePlayer];
+    
+    // Set the modal transition style of your choice
+    playerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    // Present the movie player view controller
+    [appDelegate.nvc presentMoviePlayerViewControllerAnimated:playerVC];
+    
+    // Start playback
+    [playerVC.moviePlayer prepareToPlay];
+    [playerVC.moviePlayer play];
+}
+
+
+- (void)movieFinishedCallback:(NSNotification*)aNotification
+{
+    // Obtain the reason why the movie playback finished
+    NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+    
+    // Dismiss the view controller ONLY when the reason is not "playback ended"
+    if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
+    {
+        MPMoviePlayerController *moviePlayer3 = [aNotification object];
+        
+        // Remove this class from the observers
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:MPMoviePlayerPlaybackDidFinishNotification
+                                                      object:moviePlayer3];
+        
+        // Dismiss the view controller
+//        [appDelegate.nvc dismissMoviePlayerViewControllerAnimated:YES];
+    }
+}
+
+
+-(void)LoadVideo
+{
     
     MPMoviePlayerViewController *playercontroller = [[MPMoviePlayerViewController alloc] initWithContentURL:movieURL];
     [appDelegate.nvc presentMoviePlayerViewControllerAnimated:playercontroller];
     playercontroller.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
     [playercontroller.moviePlayer play];
-    playercontroller = nil;
     
 }
+
+
+- (void) moviePlayBackDidFinish:(NSNotification*)notification {
+    MPMoviePlayerController *player1 = [notification object];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:MPMoviePlayerPlaybackDidFinishNotification
+     object:player1];
+    
+    if ([player1
+         respondsToSelector:@selector(setFullscreen:animated:)])
+    {
+        [player1.view removeFromSuperview];
+    }
+}
+
 
 
 - (void)UUAVAudioPlayerBeiginLoadVoice

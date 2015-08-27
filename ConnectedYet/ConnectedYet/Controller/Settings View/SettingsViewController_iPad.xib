@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6245" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController">
@@ -11,6 +11,7 @@
                 <outlet property="btnChatting" destination="PPf-fi-wEK" id="Ztb-Hc-F3Q"/>
                 <outlet property="btnDating" destination="TDj-DN-zZU" id="mc1-Sj-ier"/>
                 <outlet property="btnMatrimony" destination="pz2-rg-BCH" id="i3T-hc-2Ok"/>
+                <outlet property="btnSelectlanguage" destination="Ind-vI-Xor" id="4YK-nf-gZg"/>
                 <outlet property="scrollView" destination="V0p-EM-7hj" id="5rR-GE-TGF"/>
                 <outlet property="view" destination="9vP-Zq-Rzw" id="IOW-mY-gvA"/>
             </connections>
@@ -173,6 +174,9 @@
                             <state key="normal" title="Change Chatting Language" image="arrow.png" backgroundImage="button-large.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="btnLanguageTapped:" destination="-1" eventType="touchUpInside" id="ASb-eh-ywZ"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Interest" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ur7-r1-6CR">
                             <rect key="frame" x="114" y="687" width="158" height="30"/>

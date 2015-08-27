@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController">
@@ -11,6 +10,7 @@
                 <outlet property="btnChatting" destination="RLM-dx-qhU" id="yV4-jw-2zu"/>
                 <outlet property="btnDating" destination="ZgV-M6-LI8" id="7S2-Lj-KWC"/>
                 <outlet property="btnMatrimony" destination="JJR-gw-qwl" id="Zo1-GJ-iTa"/>
+                <outlet property="btnSelectlanguage" destination="8ih-uo-7XY" id="wua-fo-m2Q"/>
                 <outlet property="scrollView" destination="zle-bo-UZc" id="rt0-i3-f0U"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -173,6 +173,9 @@
                             <state key="normal" title="Change Chatting Language" image="arrow.png" backgroundImage="button-large.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="btnLanguageTapped:" destination="-1" eventType="touchUpInside" id="Bvc-Ne-ksg"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Interest" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hUV-Do-Yu7">
                             <rect key="frame" x="25" y="527" width="158" height="21"/>

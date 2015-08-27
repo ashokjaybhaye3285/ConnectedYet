@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ConnectedYet/Controller/Home/ChatViewController.m"
-            timestampString = "461524537.042814"
+            filePath = "ConnectedYet/CommetChat/UI model classes/UUChat/UUMessageCell.m"
+            timestampString = "462387130.294548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "-getDicWithMessage:forType:image:withVideoUrl:"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
+            landmarkName = "-movieFinishedCallback:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -36,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectedYet/CommetChat/UI model classes/UUChat/UUMessageCell.m"
-            timestampString = "461527892.924784"
+            timestampString = "462387130.294548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "-setMessageFrame:"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "-playmov:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -52,44 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectedYet/CommetChat/UI model classes/UUChat/UUMessageCell.m"
-            timestampString = "461611314.117929"
+            timestampString = "462387178.531294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "-playVideo:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ConnectedYet/Controller/Home/ChatViewController.m"
-            timestampString = "461611385.533887"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
-            landmarkName = "-dealTheFunctionData:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ConnectedYet/Controller/Home/ChatViewController.m"
-            timestampString = "461611415.733446"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "424"
-            endingLineNumber = "424"
-            landmarkName = "-UUInputFunctionView:sendVideoPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

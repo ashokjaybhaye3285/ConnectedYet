@@ -1,7 +1,7 @@
 /*
  
  CometChat
- Copyright (c) 2014 Inscripts
+ Copyright (c) 2015 Inscripts
  
  CometChat ('the Software') is a copyrighted work of authorship. Inscripts
  retains ownership of the Software and any copies of it, regardless of the
@@ -62,7 +62,67 @@ typedef NS_ENUM (NSInteger, STATUS_OPTIONS) {
     STATUS_OFFLINE
 };
 
+typedef NS_ENUM(NSInteger, LANGUAGE) {
+    Default,
+    Afrikaans,
+    Albanian,
+    Arabic,
+    Belarusian,
+    Bulgarian,
+    Catalan,
+    Chinese_Simpl,
+    Chinese_Trad,
+    Croatian,
+    Czech,
+    Danish,
+    Dutch,
+    English,
+    Estonian,
+    Filipino,
+    Finnish,
+    French,
+    Galician,
+    German,
+    Greek,
+    Haitian_Creole,
+    Hebrew,
+    Hindi,
+    Hungarian,
+    Icelandic,
+    Indonesian,
+    Irish,
+    Italian,
+    Japanese,
+    Korean,
+    Latvian,
+    Lithuanian,
+    Macedonian,
+    Malay,
+    Maltese,
+    Norwegian,
+    Persian,
+    Polish,
+    Portuguese,
+    Romanian,
+    Russian,
+    Serbian,
+    Slovak,
+    Slovenian,
+    Spanish,
+    Swahili,
+    Swedish,
+    Thai,
+    Turkish,
+    Ukrainian,
+    Vietnamese,
+    Welsh,
+    Yiddish
+};
+
 @interface CometChat : NSObject
+
+/* Initialization method */
+- (id)init;
 
 /* Login with given URL and user-name */
 - (void)loginWithURL:(NSString *)siteURL
@@ -82,7 +142,6 @@ typedef NS_ENUM (NSInteger, STATUS_OPTIONS) {
                      name:(NSString *)name
                   success:(void(^)(NSDictionary *response))success
                   failure:(void(^)(NSError *error))failure;
-
 
 /* Subscribe to OneOnOne chat:
    with BOOL mode indicating whether to strip html tags or not */
@@ -168,13 +227,18 @@ typedef NS_ENUM (NSInteger, STATUS_OPTIONS) {
                             failure:(void(^)(NSError *error))failure;
 
 /* Get chat history of user specified by userID */
-- (void)getChatHistoryOfUser:(NSString *)userID
+- (void)getChatHistoryOfUser:(NSString *)friendID
                    messageID:(NSString *)messageID
                      success:(void(^)(NSDictionary *response))success
                      failure:(void(^)(NSError *error))failure;
 
+/* Translate OneOnOne and Chatroom Messages */
+- (void)setTranslationLanguage:(NSInteger)language
+                       success:(void(^)(NSDictionary *response))response
+                       failure:(void(^)(NSError *error))failure;
+
 /* Check whether the user is logged-in */
-+ (BOOL)isLoggedIn;
++ (BOOL)isLoggedIn DEPRECATED_MSG_ATTRIBUTE("This method is deprecated");
 
 /* Unsubscribe from OneOnChat */
 - (void)unsubscribe;
@@ -185,5 +249,13 @@ typedef NS_ENUM (NSInteger, STATUS_OPTIONS) {
 
 /* Returns the SDK version */
 + (NSString *)getSDKVersion;
+
+/* Check CometChat installation directory */
+- (void)isCometChatInstalled:(NSString *)siteURL
+          success:(void(^)(NSDictionary *response))success
+          failure:(void(^)(NSError *error))failure;
+
+/* Set Development Mode */
++ (void)setDevelopmentMode:(BOOL)flag;
 
 @end
