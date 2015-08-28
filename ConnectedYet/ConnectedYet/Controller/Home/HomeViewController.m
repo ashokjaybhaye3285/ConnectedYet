@@ -80,8 +80,16 @@
     //}];
     
     NSLog(@"-- Chat Login :%@",[appDelegate retrieveFromUserDefaults:kChatLogin]);
+    // Instantiate chat object
+    self.chatObj=[ChatWrapper sharedChatWrapper];
+    [self.chatObj instantiateChat];
+    [self.chatObj setChatObserver:self];
+
     
-    if([[appDelegate retrieveFromUserDefaults:kChatLogin] isEqualToString:@"NO"])
+    //BOOL isLogin = [self.chatObj isLoing];
+    //NSLog(@"== Login :%d", isLogin);
+    //if([[appDelegate retrieveFromUserDefaults:kChatLogin] isEqualToString:@"NO"]) //TODO:unused remove that..
+    //if(!isLogin)
         [self chatLogIn];
     
 }
@@ -100,18 +108,17 @@
 #if DEBUG
     NSLog(@"-- Chat Login From Home Screen --");
 #endif
-    // Instantiate chat object
-    self.chatObj=[ChatWrapper sharedChatWrapper];
-    [self.chatObj instantiateChat];
-    [self.chatObj setChatObserver:self];
+   
     
-   //if (![self.chatObj isLoing]) {
+    if (![self.chatObj isLoing])
+    {
         // Login with userId
         [self.chatObj loginWithUserName:appDelegate.userDetails.userName andPassword:@"12345" completionBlock:^(BOOL status){
             if (status) {
                 // Login
                 NSLog(@"Login success");
                 [appDelegate saveToUserDefaults:kChatLogin value:@"YES"];
+
                 
             }else{
                 NSLog(@"Login fail");
@@ -119,13 +126,19 @@
 
             }
         }];
-   // }
+    }
     
+   
 }
 
 -(void)didReceivedOnlineUsersList:(NSDictionary*)onlineUsersList
 {
     NSLog(@"HOME  didReceivedOnlineUsersList ->%@",[onlineUsersList description]);
+}
+
+-(void)didReceivedErrorWithInfo:(NSError *)error
+{
+    NSLog(@"---  didReceivedErrorWithInfo --");
 }
 
 #pragma mark ---- ---- ----
@@ -348,7 +361,7 @@
     
     if([usersDataObject.userGender isEqualToString:@"M"] || [usersDataObject.userGender isEqualToString:@"m"])
         cell.imageSex.image = [UIImage imageNamed:@"male-sex"];
-    else if([usersDataObject.userGender isEqualToString:@"f"] || [usersDataObject.userGender isEqualToString:@"f"])
+    else if([usersDataObject.userGender isEqualToString:@"F"] || [usersDataObject.userGender isEqualToString:@"f"])
         cell.imageSex.image = [UIImage imageNamed:@"female-sex"];
 
     
@@ -689,7 +702,7 @@
         
         UIImageView *imageSex = [[UIImageView alloc]init];
         
-        if([usersDataObject.userGender isEqualToString:@"f"] || [usersDataObject.userGender isEqualToString:@"f"])
+        if([usersDataObject.userGender isEqualToString:@"f"] || [usersDataObject.userGender isEqualToString:@"F"])
             imageSex.image = [UIImage imageNamed:@"female-sex"];
         else if([usersDataObject.userGender isEqualToString:@"m"] || [usersDataObject.userGender isEqualToString:@"M"])
             imageSex.image = [UIImage imageNamed:@"male-sex"];

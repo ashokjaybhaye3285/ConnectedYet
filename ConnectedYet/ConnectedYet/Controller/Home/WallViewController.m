@@ -44,17 +44,13 @@
 
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     
-    //if([appDelegate.userDetails.userId intValue] == [usersDetailsObject.userId intValue])
-    //{
-        btnAddAttachment.hidden = NO;
+    if([appDelegate.userDetails.userId intValue] == [usersDetailsObject.userId intValue])
         btnUploadCoverPhoto.hidden = NO;
-    //}
-    //else
-    //{
-      //  btnAddAttachment.hidden = YES;
-      //  btnUploadCoverPhoto.hidden = YES;
-    //}
+    else
+        btnUploadCoverPhoto.hidden = YES;
 
+        btnAddAttachment.hidden = NO;
+   
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, appDelegate.iPad ? 10 : 5, 20)];
     textComment.leftView = paddingView;
     textComment.leftViewMode = UITextFieldViewModeAlways;
@@ -775,12 +771,13 @@
 
             cell.imagePost.image = [ImageManager imageNamed:@"profile-placeholder.png"];
             [cell.imagePost loadImageFromURL:[[arrayWallPostData objectAtIndex:indexPath.row] userPostImgBig]];
-            cell.imagePost.contentMode =  UIViewContentModeScaleAspectFit;
+            //cell.imagePost.contentMode =  UIViewContentModeScaleAspectFit;
+            cell.imagePost.contentMode =  UIViewContentModeScaleToFill;
 
             
             cell.imagePost.userInteractionEnabled = YES;
             cell.imagePost.tag = indexPath.row;
-            UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(highlightLetter:)];
+            UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullScreenImage:)];
             [cell.imagePost addGestureRecognizer:tapRecognizer];
             
             
@@ -1066,7 +1063,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 #pragma mark -----------------
 
-- (void)highlightLetter:(UITapGestureRecognizer*)sender
+- (void)showFullScreenImage:(UITapGestureRecognizer*)sender
 {
     UIView *view = sender.view;
     NSLog(@"Image Tag :%d", (int)view.tag);//By tag, you can find out where you had typed.

@@ -15,6 +15,9 @@
 #import "DatingStatusView.h"
 #import "MatrimonyMatchView.h"
 
+#define iPhoneFont [UIFont fontWithName:@"Helvetica" size:14]
+#define iPadFont [UIFont fontWithName:@"Helvetica" size:16]
+
 @interface ProfileViewController ()
 
 @end
@@ -49,7 +52,14 @@
     imageProfile.image = [ImageManager imageNamed:@"profile-placeholder.png"];
     [imageProfile loadImageFromURL:usersDetailsObject.userProfileBig];
     
-    labelUserName.text = [NSString stringWithFormat:@"%@ %@", usersDetailsObject.userFirstName, usersDetailsObject.userLastName];
+    NSString *strName = [NSString stringWithFormat:@"%@ %@", usersDetailsObject.userFirstName, usersDetailsObject.userLastName];
+    
+    strName = [strName stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if(strName.length ==0)
+        strName = usersDetailsObject.userName;
+    
+    labelUserName.text = strName;
+    
     labelUserGender.text = [NSString stringWithFormat:@"%@, %@", usersDetailsObject.userAge, [appDelegate getGender:usersDetailsObject.userGender]];
     labelDistance.text = usersDetailsObject.userDistance;
     
@@ -63,10 +73,24 @@
     labelSmoking.text = usersDetailsObject.userSmoke; //usersDetailsObject.usersm
     labelDrinking.text = usersDetailsObject.userDrink; //usersDetailsObject.user
     
-   // labelEducation.text = usersDetailsObject.arrayUserEthn; //usersDetailsObject.usere
-    
+    labelEducation.text = usersDetailsObject.userEducation; //usersDetailsObject.usere
     labelLanguage.text = usersDetailsObject.userPreferedLang;
     
+    float _width = labelMessage.frame.size.width;
+    NSString *strBiography = usersDetailsObject.userBiography;
+    
+    float _height = [appDelegate heightOfString:strBiography withFont:appDelegate.iPad ? iPadFont : iPhoneFont labelWidth:_width];
+    
+    CGRect newFrame = labelMessage.frame;
+    newFrame.size.height = _height+1;
+    labelMessage.frame = newFrame;
+
+    newFrame = viewDetails.frame;
+    newFrame.origin.y = labelMessage.frame.origin.y + _height + 5;
+    viewDetails.frame = newFrame;
+
+    if(!appDelegate.iPad)
+        scrollView.contentSize = CGSizeMake(DEVICE_WIDTH, 400);
     
     //if([[UIScreen mainScreen] bounds].size.height == 480)
        // btnBack.frame = CGRectMake(24, 435, 280, 40);
@@ -167,19 +191,19 @@
         }
         else if([appDelegate.userDetails.userInterest isEqualToString:@"datting"])
         {
-            viewEditView.frame = CGRectMake((DEVICE_WIDTH-500)/2, DEVICE_HEIGHT, 500 , 280);
-            
+            viewEditView.frame = CGRectMake(30, DEVICE_HEIGHT, DEVICE_WIDTH-60 , 280);
+
             btnProfileDetails.frame = CGRectMake(20, 3*space+btnHeight*2, viewEditView.frame.size.width-40, btnHeight);
 
-            btnCancel.frame = CGRectMake(20, 4*space+btnHeight+btnHeight*3, viewEditView.frame.size.width-40, btnHeight);
+            btnCancel.frame = CGRectMake(20, 4*space+btnHeight*3, viewEditView.frame.size.width-40, btnHeight);
         }
         else if([appDelegate.userDetails.userInterest isEqualToString:@"matrimony"])
         {
-            viewEditView.frame = CGRectMake((DEVICE_WIDTH-500)/2, DEVICE_HEIGHT, 500 , 280);
+            viewEditView.frame = CGRectMake(30, DEVICE_HEIGHT, DEVICE_WIDTH-60 , 280);
             
             btnProfileDetails.frame = CGRectMake(20, 3*space+btnHeight*2, viewEditView.frame.size.width-40, btnHeight);
             
-            btnCancel.frame = CGRectMake(20, 4*space+btnHeight+btnHeight*3, viewEditView.frame.size.width-40, btnHeight);
+            btnCancel.frame = CGRectMake(20, 4*space+btnHeight*3, viewEditView.frame.size.width-40, btnHeight);
         }
             
         

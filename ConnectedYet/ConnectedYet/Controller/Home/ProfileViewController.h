@@ -18,13 +18,15 @@
     UsersData *usersDetailsObject;
     
     IBOutlet AsyncImageView *imageProfile;
-    
+    IBOutlet UIScrollView *scrollView;
     IBOutlet UIButton *btnBack, *btnEdit;
     
     IBOutlet UILabel *labelUserName, *labelUserGender, *labelDistance, *labelMessage, *labelLocation, *labelRelStatus, *labelSexuality, *labelHeight, *labelSmoking, *labelDrinking, *labelEducation, *labelLanguage;
     
     IBOutlet UIButton *btnPersonalDetails, *btnLoginDetails, *btnCancel, *btnProfileDetails;
     UIView *viewEditViewBg, *viewEditView;
+    IBOutlet UIView *viewDetails;
+    
 }
 
 -(void)initWithUsersDetails:(UsersData *)_usersDetails;

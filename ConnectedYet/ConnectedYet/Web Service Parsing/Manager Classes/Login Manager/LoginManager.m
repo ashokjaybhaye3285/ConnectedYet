@@ -176,10 +176,10 @@
     proxy = [[MYSGenericProxy alloc] init];
     proxy.genericProxyListener = self;
     
-    [proxy asyncronouslyPOSTRequestURL:[NSString stringWithFormat:@"users/%@/updates", appDelegate.userDetails.userId]
+    [proxy asyncronouslyPOSTRequestURL:[NSString stringWithFormat:@"users/%@/edits", appDelegate.userDetails.userId]
                     withBodyParameters:[jsonInput dataUsingEncoding:NSUTF8StringEncoding]
                   withHeaderParameters:nil
-                         withRequestId:@"update_login_details"];
+                         withRequestId:@"update_personal_details"];
     
 //http://aegis-infotech.com/connectedyet/web/api/users/{id}/updates
 
@@ -197,12 +197,10 @@
     proxy = [[MYSGenericProxy alloc] init];
     proxy.genericProxyListener = self;
     
-    [proxy asyncronouslyPOSTRequestURL:[NSString stringWithFormat:@"users/%@/updates", appDelegate.userDetails.userId]
+    [proxy asyncronouslyPOSTRequestURL:[NSString stringWithFormat:@"users/%@/infos", appDelegate.userDetails.userId]
                     withBodyParameters:[jsonInput dataUsingEncoding:NSUTF8StringEncoding]
                   withHeaderParameters:nil
-                         withRequestId:@"update_personal_details"];
-    
-    //http://aegis-infotech.com/connectedyet/web/api/users/{id}/updates
+                         withRequestId:@"update_login_details"];
     
 }
 
@@ -606,13 +604,16 @@
                 userDataObject.userHeightId = [appDelegate checkForNullValue:[heightDict valueForKey:@"id"]];
             }
             
-
-            NSMutableDictionary *langDict = [userData valueForKey:@"lang_speak"];
-            if([langDict count])
-            {
-                userDataObject.userLanguage = [appDelegate checkForNullValue:[langDict valueForKey:@"name"]];
-                userDataObject.userLanguageId = [appDelegate checkForNullValue:[langDict valueForKey:@"id"]];
-            }
+            NSArray *langArray = [userData valueForKey:@"lang_speak"];
+            if(langArray.count)
+                userDataObject.userLanguage = [appDelegate checkForNullValue:[langArray objectAtIndex:0]];
+           
+            //NSMutableDictionary *langDict = [userData valueForKey:@"lang_speak"];
+            //if([langDict count])
+            //{
+                //userDataObject.userLanguage = [appDelegate checkForNullValue:[langDict object]];
+                //userDataObject.userLanguageId = [appDelegate checkForNullValue:[langDict valueForKey:@"id"]];
+            //}
             
             NSMutableDictionary *movieDict = [userData valueForKey:@"movies"];
             if([movieDict count])
@@ -1434,7 +1435,7 @@
             
         }
     }
-    else if([[responseDictionary valueForKey:MYS_REQUEST_ID_KEY] isEqualToString:@"update_personal_details"]) //TODO: After API change here..
+    else if([[responseDictionary valueForKey:MYS_REQUEST_ID_KEY] isEqualToString:@"update_login_details"]) //TODO: After API change here..
     {
         NSMutableDictionary *userDict = [json valueForKey:@"response"];
         
@@ -1449,7 +1450,7 @@
         else
         {
             if(loginManagerDelegate!=nil && [loginManagerDelegate respondsToSelector:@selector(problemForGettingResponse:)])
-                [loginManagerDelegate problemForGettingResponse:@"Internal Server Error"];
+                [loginManagerDelegate problemForGettingResponse:strMessage];
             
         }
     }

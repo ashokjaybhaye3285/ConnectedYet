@@ -11,6 +11,8 @@
 
 #import <GooglePlus/GooglePlus.h>
 
+#import <Instabug/Instabug.h>
+
 @interface AppDelegate ()
 
 @end
@@ -98,6 +100,9 @@
     NSLog(@"-- Device Height : %f",[[UIScreen mainScreen] bounds].size.height);
 #endif
     
+    //Instabug
+    [Instabug startWithToken:@"721f1f075508e065aaf25967de43dea4" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+
     tempObject = [[UsersData alloc]init];
     
     userDetails = [self loadCustomObjectWithKey:@"myLoginData"]; // USER OBJECT

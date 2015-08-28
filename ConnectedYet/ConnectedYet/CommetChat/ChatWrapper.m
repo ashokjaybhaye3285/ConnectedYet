@@ -1,4 +1,4 @@
-//
+ //
 //  ChatWrapper.h
 //
 //
@@ -66,18 +66,15 @@ static ChatWrapper *chatObject=nil;
 -(void)loginWithUserName:(NSString*)userName andPassword:(NSString*)password
        completionBlock:(void (^)(BOOL status))completionBloack
 {
-    
     [self.cometchat loginWithURL:chatUrl
                         username:userName
                    password:password
                     success:^(NSDictionary *response){
-                        
                         // start listing the incomming response
                         [self listingResponse];
 
                         completionBloack(true);
                     } failure:^(NSError *error) {
-                        
                         NSLog(@"Error %@",[error description]);
                         completionBloack(false);
                     }];
@@ -160,22 +157,25 @@ static ChatWrapper *chatObject=nil;
 // Start listing the incomming response
 -(void)listingResponse
 {
+    NSLog(@"-- listingResponse ---");
     [self.cometchat subscribeWithMode:YES onMyInfoReceived:^(NSDictionary *response)
      {
-        // Get profile updates
+         NSLog(@"-- didReceivedMyProfileUpdate ---");
         if (self.ChatObserver && [self.ChatObserver respondsToSelector:@selector(didReceivedMyProfileUpdate:)]) {
            
             [self.ChatObserver didReceivedMyProfileUpdate:response];
         }
          
-    } onGetOnlineUsers:^(NSDictionary *response)
-     {
-        // Get list of online users
+    }
+    onGetOnlineUsers:^(NSDictionary *response)
+    {
+        NSLog(@"-- didReceivedOnlineUsersList ---");
         if (self.ChatObserver && [self.ChatObserver respondsToSelector:@selector(didReceivedOnlineUsersList:)]) {
             [self.ChatObserver didReceivedOnlineUsersList:response];
         }
          
-    } onMessageReceived:^(NSDictionary *response)
+    }
+    onMessageReceived:^(NSDictionary *response)
     {
         // Get message received to user
         if ([[response objectForKey:@"self"] integerValue]!=1)
@@ -185,7 +185,8 @@ static ChatWrapper *chatObject=nil;
             }
         }
         
-    } onAnnouncementReceived:^(NSDictionary *response)
+    }
+    onAnnouncementReceived:^(NSDictionary *response)
     {
         // Get announcement received from admin
         if (self.ChatObserver && [self.ChatObserver respondsToSelector:@selector(didReceivedAdminAnnouncement:)])
@@ -193,7 +194,8 @@ static ChatWrapper *chatObject=nil;
             [self.ChatObserver didReceivedAdminAnnouncement:response];
         }
         
-    } onAVChatMessageReceived:^(NSDictionary *response)
+    }
+    onAVChatMessageReceived:^(NSDictionary *response)
     {
         // Get audio/video message received with info
         if (self.ChatObserver && [self.ChatObserver respondsToSelector:@selector(didReceivedAVChat:)])

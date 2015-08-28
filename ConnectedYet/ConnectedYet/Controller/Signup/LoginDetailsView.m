@@ -83,7 +83,10 @@
     {
         labelTopHeader.text = @"Edit";
         [btnNext setTitle:@"Update" forState:UIControlStateNormal];
+    
         textEmail.userInteractionEnabled = NO;
+        textUsername.userInteractionEnabled = NO;
+        textPassword.userInteractionEnabled = NO;
         
         textEmail.text = appDelegate.userDetails.userEmail;
         textUsername.text = appDelegate.userDetails.userName;
@@ -99,6 +102,22 @@
         
         textCellPhone.text = appDelegate.tempObject.userPhone;
         textCountryCode.text = appDelegate.tempObject.userCountryCode;
+
+    }
+    
+    if(DEVICE_HEIGHT == 480)
+    {
+        CGRect newFrame = imageDescBg.frame;
+        newFrame.origin.y -= 15;
+        imageDescBg.frame = newFrame;
+        
+        newFrame = labelDescription.frame;
+        newFrame.origin.y -= 15;
+        labelDescription.frame = newFrame;
+        
+        newFrame = btnNext.frame;
+        newFrame.origin.y += 30;
+        btnNext.frame = newFrame;
 
     }
 }
@@ -268,16 +287,15 @@
         
         NSMutableDictionary *dataDict = [[NSMutableDictionary alloc]init];
         
-        [dataDict setObject:textUsername.text forKey:@"username"];
-        
-        [dataDict setObject:textEmail.text forKey:@"email"];
+        //[dataDict setObject:textUsername.text forKey:@"username"];
+        //[dataDict setObject:textEmail.text forKey:@"email"];
         //[dataDict setObject:textPassword.text forKey:@"password"];
         
         [dataDict setObject:textCellPhone.text forKey:@"phone"];
         [dataDict setObject:textCountryCode.text forKey:@"countrycode"];
         
         [loginManager updateLoginDetails:dataDict];
-        
+
     }
     else
     {
@@ -687,11 +705,18 @@
     [appDelegate stopSpinner];
     
     CustomAlertView *alert = [[CustomAlertView alloc]initWithTitle:NSLocalizedString(@"app_name", nil) contentText:_message leftButtonTitle:nil rightButtonTitle:NSLocalizedString(@"ok", nil) showsImage:NO];
+    [alert show];
+    
+    appDelegate.tempObject = appDelegate.userDetails;
+    appDelegate.tempObject.userPhone = textCellPhone.text;
+    appDelegate.tempObject.userCountryCode = textCountryCode.text;
+    [appDelegate saveCustomObject:appDelegate.tempObject];
     
     alert.rightBlock =^()
     {
         [self.navigationController popViewControllerAnimated:YES];
     };
+    
 }
 
 

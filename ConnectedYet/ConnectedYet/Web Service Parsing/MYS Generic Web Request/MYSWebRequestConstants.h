@@ -20,8 +20,6 @@
 #define MYS_REQUEST_BASE_URL @"http://aegis-infotech.com/connectedyet/web/api/"   //LIVE
 //#define MYS_REQUEST_BASE_URL @"http://aegis-infotech.com/connectedyet/web/app_dev.php/api/"   //Developement
 
-//
-
 
 #define MYS_VIDEO_UPLOAD_REQUEST_BASE_URL @""
 

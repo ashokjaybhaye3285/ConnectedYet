@@ -695,7 +695,7 @@
             [dataDict setObject:appDelegate.birthDate forKey:@"date_of_birth"];
         else
             [dataDict setObject:@"" forKey:@"date_of_birth"];
-
+        
         [loginManager updatePersonalDetails:dataDict];
 
     }

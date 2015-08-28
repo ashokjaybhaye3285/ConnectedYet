@@ -487,18 +487,6 @@
         }
         else if(indexPath.row == 4) //Global
         {
-            /*
-            UsersCommonView *favourites;
-            
-            if(appDelegate.iPad)
-                favourites = [[UsersCommonView alloc]initWithNibName:@"UsersCommonView_iPad" bundle:nil];
-            else
-                favourites = [[UsersCommonView alloc]initWithNibName:@"UsersCommonView" bundle:nil];
-            
-            favourites.strHeaderTitle = @"Global";
-            [appDelegate.nvc pushViewController:favourites animated:NO];
-             */
-            
             HomeViewController *home;
             
             if(appDelegate.iPad)
@@ -607,15 +595,6 @@
     
     alert.rightBlock = ^()
     {
-        /*
-        HomeViewController *home = [[HomeViewController alloc]init];
-
-        logoutManager = [[LogOutManager alloc]init];
-        [logoutManager setLogOutManagerDelegate:self];
-        
-        [logoutManager getLogOut];
-        */
-        
         LoginViewController *login;
         
         [appDelegate clearAllData];

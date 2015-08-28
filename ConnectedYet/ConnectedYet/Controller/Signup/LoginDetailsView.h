@@ -26,6 +26,8 @@
 
     BOOL isEditProfile;
     
+    IBOutlet UIImageView *imageDescBg;
+    
 }
 
 -(void)initWithIsEditProfile:(BOOL)_isEditProfile;

@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginDetailsView">
             <connections>
                 <outlet property="btnNext" destination="0ag-O6-5rV" id="t9y-H3-xT1"/>
+                <outlet property="imageDescBg" destination="ozY-mA-qul" id="D0B-1n-fHY"/>
                 <outlet property="labelDescription" destination="Jl0-cv-e2W" id="646-mt-e2l"/>
                 <outlet property="labelTopHeader" destination="Uh2-h5-GFX" id="2Xi-dS-w27"/>
                 <outlet property="textCellPhone" destination="qdG-vH-AOW" id="p3h-ed-5AZ"/>

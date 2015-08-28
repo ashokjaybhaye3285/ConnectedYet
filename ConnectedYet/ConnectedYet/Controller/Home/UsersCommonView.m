@@ -209,7 +209,7 @@
 
    
     cell.imageProfile.image = [ImageManager imageNamed:@"profile-placeholder.png"];
-    [cell.imageProfile loadImageFromURL:usersDataObject.userProfileMedium];
+    [cell.imageProfile loadImageFromURL:usersDataObject.userProfileBig];
 
     
     if(indexPath.row%2 == 0)
@@ -229,7 +229,7 @@
     cell.labelAddress.text = [NSString stringWithFormat:@"%@, %@, %@",usersDataObject.userCity, usersDataObject.userState, usersDataObject.userDistance];
     //cell.labelDistance.text = @"10 km";
     
-    if([usersDataObject.userGender isEqualToString:@"m"])
+    if([usersDataObject.userGender isEqualToString:@"m"] || [usersDataObject.userGender isEqualToString:@"M"])
         cell.imageSex.image = [UIImage imageNamed:@"male-sex"];
     else
         cell.imageSex.image = [UIImage imageNamed:@"female-sex"];
@@ -428,7 +428,7 @@
         
         UIImageView *imageSex = [[UIImageView alloc]init];
         
-        if([usersDataObject.userGender isEqualToString:@"m"])
+        if([usersDataObject.userGender isEqualToString:@"m"] || [usersDataObject.userGender isEqualToString:@"M"])
             imageSex.image = [UIImage imageNamed:@"male-sex"];
         else
             imageSex.image = [UIImage imageNamed:@"female-sex"];
