@@ -186,35 +186,35 @@
     else if([message.messageType integerValue] == 14) // 
     {
         NSURL *imageURL = [NSURL URLWithString:message.message];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        //  UIImage *image = [UIImage imageWithData:imageData];
+//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//        //  UIImage *image = [UIImage imageWithData:imageData];
+//        
+//        NSString *search = @"unencryptedfilename=";
+//        NSString *sub = [message.message substringFromIndex:NSMaxRange([message.message rangeOfString:search])];
+//        
+//        
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//        NSString *documentsDirectory = [paths objectAtIndex:0];
+//        
+//        NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"DefaultAlbum"];
+//        
+//        if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+//            [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
+//        
+//        NSString *videopath= [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/%@",dataPath,sub]];
+//        
+//        
+//        NSURL *videoURL = [NSURL fileURLWithPath:videopath];
+//        
+//        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
+//        
+//        UIImage *thumbnail = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
+//        
         
-        NSString *search = @"unencryptedfilename=";
-        NSString *sub = [message.message substringFromIndex:NSMaxRange([message.message rangeOfString:search])];
         
+//        [imageData writeToFile:videopath atomically:NO];
         
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        
-        NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"DefaultAlbum"];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
-            [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
-        
-        NSString *videopath= [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/%@",dataPath,sub]];
-        
-        
-        NSURL *videoURL = [NSURL fileURLWithPath:videopath];
-        
-        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
-        
-        UIImage *thumbnail = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
-        
-        
-        
-        [imageData writeToFile:videopath atomically:NO];
-        
-        [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:thumbnail withVideoUrl:sub] ];
+        [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:nil withVideoUrl:message.message] ];
     }
 
     [self.chatTableView reloadData];
@@ -423,7 +423,7 @@
     
     
     
-    NSDictionary *dic = @{@"video": videoName, @"type":@14};
+    NSDictionary *dic = @{@"video": videoPath, @"type":@14};
     [self dealTheFunctionData:dic];
     
 }

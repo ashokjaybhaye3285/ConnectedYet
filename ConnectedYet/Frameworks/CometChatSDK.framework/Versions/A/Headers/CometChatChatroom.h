@@ -1,7 +1,7 @@
 /*
  
  CometChat
- Copyright (c) 2014 Inscripts
+ Copyright (c) 2015 Inscripts
  
  CometChat ('the Software') is a copyrighted work of authorship. Inscripts
  retains ownership of the Software and any copies of it, regardless of the
@@ -53,14 +53,21 @@
 
 #import <Foundation/Foundation.h>
 
+/* Enum for Chatroom Types */
+typedef NS_ENUM (NSInteger, CHATROOM_TYPES) {
+    
+    PUBLIC_CHATROOM,
+    PASSWORD_PROTECTED_CHATROOM,
+    INVITE_ONLY_CHATROOM
+};
+
 @interface CometChatChatroom : NSObject
 
 /* Subscribe to Chatroom chat:
    BOOL mode indicating whether to strip html tags or not */
 - (void)subscribeToChatroomWithMode:(BOOL)mode
           onChatroomMessageReceived:(void(^)(NSDictionary *response))message
-                           onKicked:(void(^)(NSDictionary *response))kickedRoomID
-                           onBanned:(void(^)(NSDictionary *response))bannedRoomID
+            onActionMessageReceived:(void(^)(NSDictionary *response))actionMessage
             onChatroomsListReceived:(void(^)(NSDictionary *response))chatroomList
       onChatroomMembersListReceived:(void(^)(NSDictionary *response))chatroomMembersList
             onAVChatMessageReceived:(void(^)(NSDictionary *response))avchatMessage
@@ -73,13 +80,18 @@
              failure:(void(^)(NSError *error))failure;
 
 /* Create Chatroom having specified type, name and password */
-- (void)createChatRoom:(NSString *)chatroomName OfType:(NSNumber *)type withPassword:(NSString *)chatroomPassword
+- (void)createChatRoom:(NSString *)chatroomName OfType:(NSInteger)type withPassword:(NSString *)chatroomPassword
                success:(void(^)(NSDictionary *response))success
                failure:(void(^)(NSError *error))failure;
 
+/* Delete Chatroom passing chatroomID */
+- (void)deleteChatRoom:(NSString *)chatroomID
+               success:(void(^)(NSDictionary *response))response
+               failure:(void(^)(NSError *error))error;
+
 /* Invite users to specified chatroom */
-- (void)inviteUsers:(NSArray *)users toChatRoom:(NSString *)chatroomName withChatroomID:(NSString *)chatroomID
-        withfailure:(void(^)(NSError *error))failure;
+- (void)inviteUsers:(NSArray *)usersID toChatRoom:(NSString *)chatroomName withChatroomID:(NSString *)chatroomID
+        failure:(void(^)(NSError *error))failure;
 
 /* Send message to currently joined chatroom */
 - (void)sendChatroomMessage:(NSString *)message
@@ -107,7 +119,7 @@
                   failure:(void(^)(NSError *error))failure;
 
 /* Get chatroom list from server */
-- (void)getAllChatroomsWithsuccess:(void(^)(NSDictionary *response))success
+- (void)getAllChatrooms:(void(^)(NSDictionary *chatroomList))response
                            failure:(void(^)(NSError *error))failure;
 
 /* Leave currently joined chatroom */

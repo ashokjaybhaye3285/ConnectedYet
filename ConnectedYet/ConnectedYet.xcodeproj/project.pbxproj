@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		143D06291B8E3A220080BDBD /* CometChatSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143D06281B8E3A220080BDBD /* CometChatSDK.framework */; };
 		14C1F4791B8240DF00B251EE /* video.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F4781B8240DF00B251EE /* video.png */; };
 		47BAA2C61A3A9FB400212732 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BAA2C51A3A9FB400212732 /* main.m */; };
 		47BAA2CF1A3A9FB400212732 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47BAA2CD1A3A9FB400212732 /* Main.storyboard */; };
@@ -274,7 +275,6 @@
 		F95ED92C1A7CCEEE00A1BB84 /* favourite-image.png in Resources */ = {isa = PBXBuildFile; fileRef = F95ED9261A7CCEEE00A1BB84 /* favourite-image.png */; };
 		F95ED9341A7CD85E00A1BB84 /* SocialRadarView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F95ED9321A7CD85E00A1BB84 /* SocialRadarView_iPad.xib */; };
 		F95ED9371A7CF5EC00A1BB84 /* comment-image.png in Resources */ = {isa = PBXBuildFile; fileRef = F95ED9351A7CF5EC00A1BB84 /* comment-image.png */; };
-		F96249671B3FD1D200561C39 /* CometChatSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F96249631B3FD1D200561C39 /* CometChatSDK.framework */; };
 		F96249681B3FD1D200561C39 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F96249641B3FD1D200561C39 /* GoogleOpenSource.framework */; };
 		F96249691B3FD1D200561C39 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F96249651B3FD1D200561C39 /* GooglePlus.bundle */; };
 		F962496A1B3FD1D200561C39 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F96249661B3FD1D200561C39 /* GooglePlus.framework */; };
@@ -603,6 +603,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		143D06281B8E3A220080BDBD /* CometChatSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CometChatSDK.framework; sourceTree = "<group>"; };
 		14C1F4781B8240DF00B251EE /* video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video.png; sourceTree = "<group>"; };
 		47BAA2C01A3A9FB400212732 /* ConnectedYet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConnectedYet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47BAA2C41A3A9FB400212732 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -929,7 +930,6 @@
 		F95ED9261A7CCEEE00A1BB84 /* favourite-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favourite-image.png"; sourceTree = "<group>"; };
 		F95ED9321A7CD85E00A1BB84 /* SocialRadarView_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialRadarView_iPad.xib; sourceTree = "<group>"; };
 		F95ED9351A7CF5EC00A1BB84 /* comment-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment-image.png"; sourceTree = "<group>"; };
-		F96249631B3FD1D200561C39 /* CometChatSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CometChatSDK.framework; sourceTree = "<group>"; };
 		F96249641B3FD1D200561C39 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleOpenSource.framework; sourceTree = "<group>"; };
 		F96249651B3FD1D200561C39 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlus.bundle; sourceTree = "<group>"; };
 		F96249661B3FD1D200561C39 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlus.framework; sourceTree = "<group>"; };
@@ -1328,6 +1328,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+
 				F9175F791AEBAED700C9E7CE /* UIKit.framework in Frameworks */,
 				F916E20A1A99BB21006D78D8 /* SystemConfiguration.framework in Frameworks */,
 				F9C59B931B216E84005C68CA /* QuartzCore.framework in Frameworks */,
@@ -1340,6 +1341,9 @@
 				F9175F831AEBB57900C9E7CE /* CoreMotion.framework in Frameworks */,
 				F9175F811AEBB56500C9E7CE /* CoreGraphics.framework in Frameworks */,
 				F96A28681B8CE43C00199183 /* AudioToolbox.framework in Frameworks */,
+
+				143D06291B8E3A220080BDBD /* CometChatSDK.framework in Frameworks */,
+
 				F9175F7D1AEBB54C00C9E7CE /* MediaPlayer.framework in Frameworks */,
 				F9F2F5BD1B1C4A850069A9F1 /* libsqlite3.0.dylib in Frameworks */,
 				F9175F8D1AEBB7EF00C9E7CE /* AddressBook.framework in Frameworks */,
@@ -1347,7 +1351,6 @@
 				F9DD5C591B2404C3008E71B0 /* CFNetwork.framework in Frameworks */,
 				F9DD5C571B2404A4008E71B0 /* MobileCoreServices.framework in Frameworks */,
 				F9DD5BC61B2234A4008E71B0 /* libxml2.dylib in Frameworks */,
-				F96249671B3FD1D200561C39 /* CometChatSDK.framework in Frameworks */,
 				F9175F7B1AEBB54400C9E7CE /* Security.framework in Frameworks */,
 				F9175F851AEBB58100C9E7CE /* CoreLocation.framework in Frameworks */,
 				F96249681B3FD1D200561C39 /* GoogleOpenSource.framework in Frameworks */,
@@ -2092,12 +2095,16 @@
 		F96249621B3FD1D200561C39 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+
 				F96A28711B8CE4AC00199183 /* OpenGLES.framework */,
 				F96A286F1B8CE49B00199183 /* MessageUI.framework */,
 				F96A286D1B8CE49300199183 /* libc++.dylib */,
 				F96A286B1B8CE47C00199183 /* GLKit.framework */,
 				F96A28691B8CE45E00199183 /* CoreTelephony.framework */,
 				F96A28671B8CE43C00199183 /* AudioToolbox.framework */,
+
+				143D06281B8E3A220080BDBD /* CometChatSDK.framework */,
+
 				F9DD5C581B2404C3008E71B0 /* CFNetwork.framework */,
 				F9DD5C561B2404A4008E71B0 /* MobileCoreServices.framework */,
 				F9DD5BC51B2234A4008E71B0 /* libxml2.dylib */,
@@ -2118,7 +2125,6 @@
 				F916E20B1A99BB50006D78D8 /* libz.dylib */,
 				F916E2091A99BB21006D78D8 /* SystemConfiguration.framework */,
 				F9F697FD1A7420E500E8914C /* MapKit.framework */,
-				F96249631B3FD1D200561C39 /* CometChatSDK.framework */,
 				F96249641B3FD1D200561C39 /* GoogleOpenSource.framework */,
 				F96249651B3FD1D200561C39 /* GooglePlus.bundle */,
 				F96249661B3FD1D200561C39 /* GooglePlus.framework */,
