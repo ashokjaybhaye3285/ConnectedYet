@@ -7,6 +7,8 @@
 //
 
 #import "ChatWrapper.h"
+#import "AppDelegate.h"
+#import "DatabaseConnection.h"
 
 static ChatWrapper *chatObject=nil;
 
@@ -45,6 +47,20 @@ static ChatWrapper *chatObject=nil;
     else{
         return false;
     }
+}
+
+-(void)logoutExistingUser
+{
+    [self.cometchat logoutWithSuccess:^(NSDictionary *response)
+     {
+         NSLog(@"-- Logout Respone :%@", response);
+
+     }failure:^(NSError *error)
+     {
+         NSLog(@"-- Logout Error :%@", error);
+
+     }];
+    
 }
 
 -(void)getChatHistory
@@ -177,12 +193,30 @@ static ChatWrapper *chatObject=nil;
     }
     onMessageReceived:^(NSDictionary *response)
     {
+        NSLog(@"-- RECEIVED MESSAGE :%@",response);
         // Get message received to user
         if ([[response objectForKey:@"self"] integerValue]!=1)
         {
             if (self.ChatObserver && [self.ChatObserver respondsToSelector:@selector(didReceivedMessage:)]) {
                 [self.ChatObserver didReceivedMessage:[self getChatMessageObjWithDictionary:response]];
             }
+            else
+            {
+                [self insertIntoDatabase:response];
+                /*
+                database = [[DatabaseConnection alloc]init];
+                appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+                //ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent)
+                
+                NSString *query = [NSString stringWithFormat:@"Insert into ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent) values('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", appDelegate.userDetails.userId, [response objectForKey:@"from"], [response objectForKey:@"message"], [response objectForKey:@"message_type"], [response objectForKey:@"id"], [response objectForKey:@"old"], [response objectForKey:@"self"], [response objectForKey:@"sent"]];
+                [database executeQuety:query];
+                */
+            }
+        }
+        else
+        {
+            [self insertIntoDatabaseSelfMessage:response];
+
         }
         
     }
@@ -227,7 +261,31 @@ static ChatWrapper *chatObject=nil;
     chatMessage.messageOld = [response objectForKey:@"old"];
     chatMessage.messageSent = [response objectForKey:@"sent"];
     
+    [self insertIntoDatabase:response];
+    
     return chatMessage;
+}
+
+-(void)insertIntoDatabase:(NSDictionary*)response
+{
+    database = [[DatabaseConnection alloc]init];
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    //ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent)
+    
+    NSString *query = [NSString stringWithFormat:@"Insert into ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent) values('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", appDelegate.userDetails.userId, [response objectForKey:@"from"], [response objectForKey:@"message"], [response objectForKey:@"message_type"], [response objectForKey:@"id"], [response objectForKey:@"old"], [response objectForKey:@"self"], [response objectForKey:@"sent"]];
+    [database executeQuety:query];
+
+}
+
+-(void)insertIntoDatabaseSelfMessage:(NSDictionary*)response
+{
+    database = [[DatabaseConnection alloc]init];
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    //ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent)
+    
+    NSString *query = [NSString stringWithFormat:@"Insert into ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent) values('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')", [response objectForKey:@"from"], appDelegate.userDetails.userId, [response objectForKey:@"message"], [response objectForKey:@"message_type"], [response objectForKey:@"id"], [response objectForKey:@"old"], [response objectForKey:@"self"], [response objectForKey:@"sent"]];
+    [database executeQuety:query];
+    
 }
 
 @end

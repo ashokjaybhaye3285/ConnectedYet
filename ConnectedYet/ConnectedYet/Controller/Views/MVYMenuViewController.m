@@ -372,7 +372,17 @@
         }
         else if(indexPath.row == 3) // Logout
         {
-            [self getLogOut];
+            if([MYSBaseProxy isNetworkAvailable])
+            {
+                [self getLogOut];
+            }
+            else
+            {
+                CustomAlertView *alert = [[CustomAlertView alloc]initWithTitle:NSLocalizedString(@"app_name", nil) contentText:NSLocalizedString(@"network_error", nil) leftButtonTitle:nil rightButtonTitle:NSLocalizedString(@"ok", nil) showsImage:NO];
+                [alert show];
+                
+            }
+
             
             /*
             alertLogout = [[UIAlertView alloc]initWithTitle:@"ConnectedYet" message:@"Are you sure want to logout ?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];

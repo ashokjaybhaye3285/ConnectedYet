@@ -54,7 +54,7 @@
     [imageSelection addGestureRecognizer:panGestureRecognizer];
     
     
-    [self getAllUsersDetails]; //TODO: TEMP HIDE ---- --- -- -
+    //[self getAllUsersDetails]; //TODO: TEMP HIDE ---- --- -- -
     
     __weak HomeViewController *weakSelf = self;
     tableUser.pullToRefreshView.arrowColor = [UIColor whiteColor];

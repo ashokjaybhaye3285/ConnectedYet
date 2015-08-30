@@ -15,6 +15,10 @@
 #import "chatMessageDTO.h"
 #import "Constant.h"
 
+
+@class AppDelegate;
+@class DatabaseConnection;
+
 @protocol CometChatObserver <NSObject>
 @optional
 
@@ -75,6 +79,11 @@
 
 
 @interface ChatWrapper : NSObject
+{
+    DatabaseConnection *database;
+    AppDelegate *appDelegate;
+    
+}
 
 @property(weak,nonatomic) id <CometChatObserver> ChatObserver;
 @property(nonatomic,retain)CometChat *cometchat;
@@ -116,5 +125,6 @@
 -(void)instantiateChat;
 
 -(BOOL)isLoing;
+-(void)logoutExistingUser; //Log out
 
 @end

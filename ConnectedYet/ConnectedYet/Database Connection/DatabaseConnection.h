@@ -7,9 +7,12 @@
 #import "CountryData.h"
 #import "UsersData.h"
 
+#import "AppDelegate.h"
+
 @interface DatabaseConnection : NSObject
 {
-
+    AppDelegate *appDelegate;
+    
 	NSString *databaseName;
 	NSString *databasePath;
 	NSArray *documentPaths;
@@ -26,5 +29,7 @@
 -(NSMutableArray *)getAllCountries;
 
 -(NSMutableArray *)getDetailsForComments:(NSString *)_userId;
+
+-(NSMutableArray *)getChatHistoryFromDatabaseFromId:(NSString *)_fromId;
 
 @end

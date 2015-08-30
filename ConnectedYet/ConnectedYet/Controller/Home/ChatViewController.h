@@ -23,9 +23,12 @@
 #import "UUMessageFrame.h"
 #import "UUMessage.h"
 
+#import "DatabaseConnection.h"
+
 @interface ChatViewController : UIViewController <CometChatObserver,UUInputFunctionViewDelegate,UUMessageCellDelegate,ChatDataManager>
 {
     AppDelegate *appDelegate;
+    DatabaseConnection *datbase;
     
     IBOutlet UILabel *labelTopHeader;
     

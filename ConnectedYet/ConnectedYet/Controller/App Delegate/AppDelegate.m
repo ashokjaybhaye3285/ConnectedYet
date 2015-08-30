@@ -24,6 +24,8 @@
 @synthesize userDetails;
 @synthesize tempObject;
 
+@synthesize chatObj;
+
 @synthesize loginType;
 
 @synthesize nvc;
@@ -533,6 +535,13 @@
     [self saveCustomObject:Nil];
     [self saveToUserDefaults:kChatLogin value:@"NO"];
 
+    //chatObj = [[ChatWrapper alloc] init];
+    chatObj=[ChatWrapper sharedChatWrapper];
+    [chatObj instantiateChat];
+    [chatObj setChatObserver:self];
+
+    [chatObj logoutExistingUser];
+    
     userDetails = nil;
 }
 

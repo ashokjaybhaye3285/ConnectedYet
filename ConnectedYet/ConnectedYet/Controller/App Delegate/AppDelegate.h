@@ -14,8 +14,9 @@
 #import "UsersData.h"
 
 #import <GooglePlus/GooglePlus.h>
+#import "ChatWrapper.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CometChatObserver>
 {
     UIView *alertView;
     UIActivityIndicatorView *indicator;
@@ -23,6 +24,8 @@
 
 @property (nonatomic, retain) UINavigationController *nvc;
 @property (strong, nonatomic) UIWindow *window;
+
+@property(nonatomic,retain)ChatWrapper *chatObj;
 
 @property (nonatomic, retain) NSString *loginType;
 

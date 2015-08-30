@@ -49,6 +49,8 @@
     
     labelTopHeader.text = self.targetUser.userName;
 
+    NSLog(@"-- Other User Id:%@", self.targetUser.userId);
+    
     // Get chat history
     //[self getHistory];
     
@@ -59,7 +61,15 @@
     // Initiate chatting
     [self chatFunctions];
     
-    //[self.chatObj getChatHistory];//----static
+    datbase = [[DatabaseConnection alloc]init]; //
+    
+    self.chatModel = [[ChatModel alloc]init];
+
+    NSMutableArray *arrayHistory= [datbase getChatHistoryFromDatabaseFromId:self.targetUser.userId];
+    
+    for(int i=0; i<arrayHistory.count; i++)
+        [self didReceivedMessage:[arrayHistory objectAtIndex:i]];
+    
     // Chat UI & Functionality functions
     [self loadBaseView];
     
@@ -172,55 +182,62 @@
 -(void)didReceivedMessage:(chatMessageDTO *)message
 {
     NSLog(@"didReceivedMessage ->%@",message.message);
-    
-    if([message.messageType integerValue] == 10)
-        [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:nil withVideoUrl:@""]];
-    else if([message.messageType integerValue] == 12)
-    {
-        NSURL *imageURL = [NSURL URLWithString:message.message];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        UIImage *image = [UIImage imageWithData:imageData];
-        
-        [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:image withVideoUrl:@""]];
-    }
-    else if([message.messageType integerValue] == 14) // 
-    {
-        NSURL *imageURL = [NSURL URLWithString:message.message];
-//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-//        //  UIImage *image = [UIImage imageWithData:imageData];
-//        
-//        NSString *search = @"unencryptedfilename=";
-//        NSString *sub = [message.message substringFromIndex:NSMaxRange([message.message rangeOfString:search])];
-//        
-//        
-//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//        NSString *documentsDirectory = [paths objectAtIndex:0];
-//        
-//        NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"DefaultAlbum"];
-//        
-//        if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
-//            [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
-//        
-//        NSString *videopath= [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/%@",dataPath,sub]];
-//        
-//        
-//        NSURL *videoURL = [NSURL fileURLWithPath:videopath];
-//        
-//        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
-//        
-//        UIImage *thumbnail = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
-//        
-        
-        
-//        [imageData writeToFile:videopath atomically:NO];
-        
-        [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:nil withVideoUrl:message.message] ];
-    }
+    NSLog(@"didReceivedMessage ->%@",message.messageFromUserId);
+    NSLog(@"-- Other User Id:%@", self.targetUser.userId);
 
-    [self.chatTableView reloadData];
-    [self tableViewScrollToBottom];
+    if(([message.messageFromUserId intValue] == [self.targetUser.userId intValue]) || ([message.messageFromUserId intValue] == [appDelegate.userDetails.userId intValue]) )
+    {
+        if([message.messageType integerValue] == 10)
+            [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:nil withVideoUrl:@""]];
+        else if([message.messageType integerValue] == 12)
+        {
+            NSURL *imageURL = [NSURL URLWithString:message.message];
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            UIImage *image = [UIImage imageWithData:imageData];
+            
+            [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:image withVideoUrl:@""]];
+        }
+        else if([message.messageType integerValue] == 14) //
+        {
+            NSURL *imageURL = [NSURL URLWithString:message.message];
+            //        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            //        //  UIImage *image = [UIImage imageWithData:imageData];
+            //
+            //        NSString *search = @"unencryptedfilename=";
+            //        NSString *sub = [message.message substringFromIndex:NSMaxRange([message.message rangeOfString:search])];
+            //
+            //
+            //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            //        NSString *documentsDirectory = [paths objectAtIndex:0];
+            //
+            //        NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"DefaultAlbum"];
+            //
+            //        if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
+            //            [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
+            //
+            //        NSString *videopath= [[NSString alloc] initWithString:[NSString stringWithFormat:@"%@/%@",dataPath,sub]];
+            //
+            //
+            //        NSURL *videoURL = [NSURL fileURLWithPath:videopath];
+            //
+            //        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
+            //
+            //        UIImage *thumbnail = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
+            //
+            
+            
+            //        [imageData writeToFile:videopath atomically:NO];
+            
+            [self.chatModel.dataSource addObject:[self getComposedMessageWithText:message messageType:[message.messageType integerValue] withImage:nil withVideoUrl:message.message] ];
+        }
+        
+        [self.chatTableView reloadData];
+        [self tableViewScrollToBottom];
+        
+        //[self UUInputFunctionView:self.IFView sendMessage:message.message];
+
+    }
     
-    //[self UUInputFunctionView:self.IFView sendMessage:message.message];
 }
 /*
 - (UUMessageFrame *)getComposedMessageWithText:(chatMessageDTO*)chatMessage messageType:(NSInteger)messageType withImage:(UIImage*)image
@@ -329,7 +346,6 @@
 
 - (void)loadBaseView
 {
-    self.chatModel = [[ChatModel alloc]init];
     
     self.IFView = [[UUInputFunctionView alloc]initWithSuperVC:self];
     self.IFView.backgroundColor = [UIColor colorWithRed:42.0/255.0 green:185.0/255.0 blue:177.0/255.0 alpha:1];

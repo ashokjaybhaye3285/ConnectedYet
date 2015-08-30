@@ -201,4 +201,60 @@ static DatabaseConnection *sharedInstance = nil;
     
 }
 
+
+-(NSMutableArray *)getChatHistoryFromDatabaseFromId:(NSString *)_fromId
+{
+    appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+    
+    NSString *_query = [NSString stringWithFormat:@"Select loginUserId, messageFromId, message, messageType, messageId, old, self, sent from ChatHistory where loginUserId = '%@' and messageFromId = '%@' or loginUserId = '%@' and messageFromId = '%@'", appDelegate.userDetails.userId, _fromId, _fromId, appDelegate.userDetails.userId];
+    
+    //ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent)
+    
+#if DEBUG
+    NSLog(@"--- Get Count Query :%@",_query);
+#endif
+    
+    [self checkAndCreateDatabase];
+    sqlite3 *database;
+    
+    if(sqlite3_open([databasePath UTF8String], &database) == SQLITE_OK)
+    {
+        const char *sqlStatement =[_query UTF8String];
+        sqlite3_stmt *compiledStatement;
+        
+        if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK)
+        {
+            while(sqlite3_step(compiledStatement) == SQLITE_ROW)
+            {
+                chatMessageDTO *chatMessage=[chatMessageDTO new];
+                
+                //ChatHistory(loginUserId, messageFromId, message, messageType, messageId, old, self, sent)
+
+                chatMessage.messageToUserId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,0)];
+                chatMessage.messageFromUserId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,1)];
+                chatMessage.message = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,2)];
+                chatMessage.messageType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,3)];
+                chatMessage.messageId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,4)];
+                chatMessage.messageOld = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,5)];
+                chatMessage.messageSelf = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,6)];
+                chatMessage.messageSent = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement,7)];
+
+                [dataArray addObject:chatMessage];
+                chatMessage = nil;
+                
+            }
+            
+        }
+        sqlite3_finalize(compiledStatement);
+    }
+    
+    sqlite3_close(database);
+    
+    return dataArray;
+    
+}
+
+
 @end
