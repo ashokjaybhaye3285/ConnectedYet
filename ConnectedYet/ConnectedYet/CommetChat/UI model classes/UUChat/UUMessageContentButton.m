@@ -27,19 +27,16 @@
         self.second = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 70, 30)];
         self.second.textAlignment = NSTextAlignmentCenter;
         self.second.font = [UIFont systemFontOfSize:14];
-        self.voice = [[UIImageView alloc]initWithFrame:CGRectMake(80, 5, 20, 20)];
+        
+        
+        self.voice = [[UIImageView alloc]initWithFrame:CGRectMake(1, 1, 50, 50)];
         self.voice.image = [UIImage imageNamed:@"video.png"];
-//        self.voice.animationImages = [NSArray arrayWithObjects:
-//                                      [UIImage imageNamed:@"chat_animation_white1"],
-//                                      [UIImage imageNamed:@"chat_animation_white2"],
-//                                      [UIImage imageNamed:@"chat_animation_white3"],nil];
-//        self.voice.animationDuration = 1;
-//        self.voice.animationRepeatCount = 0;
+        self.voice.contentMode= UIViewContentModeScaleToFill;
         self.indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         self.indicator.center=CGPointMake(80, 15);
-        [self.voiceBackView addSubview:self.indicator];
+//        [self.voiceBackView addSubview:self.indicator];
         [self.voiceBackView addSubview:self.voice];
-        [self.voiceBackView addSubview:self.second];
+//        [self.voiceBackView addSubview:self.second];
         
         self.backImageView.userInteractionEnabled = NO;
         self.voiceBackView.userInteractionEnabled = NO;

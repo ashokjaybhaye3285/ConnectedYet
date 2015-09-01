@@ -96,12 +96,10 @@
 - (void)btnContentClick{
     //play audio
     if (self.messageFrame.message.type == UUMessageTypeVoice) {
-//        
-//        audio = [UUAVAudioPlayer sharedInstance];
-//        audio.delegate = self;
-//        voiceURL = @"http://aegis-infotech.com/connectedyet/web/cometchat/plugins/filetransfer/download.php?file=9ac84bda2ba422b14d5651dd5b0baf32&unencryptedfilename=trim.P1G2MI.MOV";
+        
+        
         [self playVideo:voiceURL];
-       // [audio playSongWithData:songData];
+
     }
     //show the picture
     else if (self.messageFrame.message.type == UUMessageTypePicture)
