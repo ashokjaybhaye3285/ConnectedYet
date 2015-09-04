@@ -78,7 +78,6 @@
             [[UIDevice currentDevice] name];
             
             ABMultiValueRef email = ABRecordCopyValue(person, kABPersonEmailProperty);
-            
             for (CFIndex i = 0; i < ABMultiValueGetCount(email); i++)
             {
                 contact.contactEmail = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(email, i);
@@ -88,7 +87,6 @@
             }
             
             ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
-            
             for (CFIndex i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
                 contact.contactNumber = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
                 NSLog(@"phone:%@", contact.contactNumber);
