@@ -17,4 +17,6 @@
 @synthesize contactEmail;
 @synthesize contactNumber;
 
+@synthesize contactImageData;
+
 @end

@@ -168,6 +168,7 @@
 -(void)inviteContactToApplication:(NSMutableDictionary *)_dataDict
 {
     //URL: http://aegis-infotech.com//connectedyet/web/api/invites/{id}
+    
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     NSString *jsonInput = [JSONStringGenerator jsonStringWithPrettyPrint:NO fromDict:_dataDict];
     
@@ -178,7 +179,7 @@
     proxy = [[MYSGenericProxy alloc] init];
     proxy.genericProxyListener = self;
     
-    [proxy asyncronouslyPOSTRequestURL:[NSString stringWithFormat:@"invites/%@", @"234"]
+    [proxy asyncronouslyPOSTRequestURL:[NSString stringWithFormat:@"invites/%@", appDelegate.userDetails.userId]
                     withBodyParameters:[jsonInput dataUsingEncoding:NSUTF8StringEncoding]
                   withHeaderParameters:nil
                          withRequestId:@"invite_contact"];
@@ -1378,8 +1379,6 @@
     {
         NSLog(@"--- Response :%@",[JSONStringGenerator jsonStringWithPrettyPrint:NO fromDict:[json valueForKey:@"response"]]);
         
-        NSString *strMessage = [[json valueForKey:@"response"]  valueForKey:@"message"];
-        
         if([[[json valueForKey:@"response"] valueForKey:@"status"] isEqualToString:@"success"])
         {
             NSString *message = [[[json valueForKey:@"response"] valueForKey:@"data"] valueForKey:@"msgallready"];
@@ -1391,7 +1390,7 @@
         else
         {
             if(userManagerDelegate!=nil && [userManagerDelegate respondsToSelector:@selector(problemForGettingResponse:)])
-                [userManagerDelegate problemForGettingResponse:strMessage];
+                [userManagerDelegate problemForGettingResponse:NSLocalizedString(@"select_country", nil)];
             
         }
     }

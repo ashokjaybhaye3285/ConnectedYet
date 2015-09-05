@@ -23,3 +23,6 @@
 "logout_message" = "Are you sure want to logout ?";
 "cancel" = "Cancel";
 "yes" = "Yes";
+
+
+"invitation_problem" = "Problem for sending invitation";

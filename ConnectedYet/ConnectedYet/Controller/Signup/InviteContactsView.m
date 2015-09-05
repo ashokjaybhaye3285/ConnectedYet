@@ -24,13 +24,16 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+   // [super viewDidLoad];
 
     appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     arrayContacts = [[NSMutableArray alloc]init];
-   
-    [self getAllContacts];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self getAllContacts];
+
+    });
     
     if(isForEdit)
     {
@@ -38,6 +41,7 @@
     }
     
 }
+
 
 -(void)getAllContacts
 {
@@ -63,39 +67,48 @@
             
             ABRecordRef person = CFArrayGetValueAtIndex( allPeople, i );
             
-            contact.contactFirstName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
-            contact.contactLastName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
+            NSString *fName, *lName;
+            
+            fName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
+            lName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
            
-            NSLog(@"Name:%@ %@", contact.contactFirstName, contact.contactLastName);
+            contact.contactFirstName = [appDelegate checkForNullValue:fName];
+            contact.contactLastName = [appDelegate checkForNullValue:lName];
+
+            //NSLog(@"Name:%@ %@", contact.contactFirstName, contact.contactLastName);
             
             CFDataRef imgData = ABPersonCopyImageData(person);
-           // NSData *imageData = (__bridge NSData *)imgData;
+
             if (imgData != NULL) {
+                contact.contactImageData = (__bridge NSData *)imgData;
                 CFRelease(imgData);
             }
             
-            
-            [[UIDevice currentDevice] name];
+            BOOL isEmailExist = NO;
             
             ABMultiValueRef email = ABRecordCopyValue(person, kABPersonEmailProperty);
             for (CFIndex i = 0; i < ABMultiValueGetCount(email); i++)
             {
+                isEmailExist = YES;
+                
                 contact.contactEmail = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(email, i);
             
-                NSLog(@"Email :%@", contact.contactEmail);
+              //  NSLog(@"Email :%@", contact.contactEmail);
                 
             }
             
             ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
             for (CFIndex i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
                 contact.contactNumber = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-                NSLog(@"phone:%@", contact.contactNumber);
+              //  NSLog(@"phone:%@", contact.contactNumber);
             }
             
-            [arrayContacts addObject:contact];
+            if(isEmailExist)
+                [arrayContacts addObject:contact];
+            
             contact = nil;
             
-            NSLog(@"=============================================");
+          //  NSLog(@"=============================================");
         }
         
         if([arrayContacts count])
@@ -131,7 +144,10 @@
         [emailArray addObject:[[arrayContacts objectAtIndex:_index] contactEmail]];
 
         NSMutableDictionary *dataDict = [[NSMutableDictionary alloc]init];
-        [dataDict setObject:emailArray forKey:@"emails"];
+        
+        if([emailArray count])
+            [dataDict setObject:[emailArray objectAtIndex:0] forKey:@"emails"];
+
         [dataDict setObject:@"Hi...join us at ConnectedYet" forKey:@"message"];
 
         [userManager inviteContactToApplication:dataDict];
@@ -179,10 +195,14 @@
     ContactData *contact = [arrayContacts objectAtIndex:indexPath.row];
     
     UIImageView *imageProfile = [[UIImageView alloc]init];
-    imageProfile.image = [UIImage imageNamed:@"profile.png"];
+    
+    if(contact.contactImageData)
+        imageProfile.image = [UIImage imageWithData:contact.contactImageData];
+    else
+        imageProfile.image = [UIImage imageNamed:@"profile-placeholder.png"];
     imageProfile.layer.borderColor = [[UIColor colorWithRed:81.0/255.0 green:176.0/255.0 blue:180.0/255.0 alpha:1] CGColor];
     imageProfile.layer.borderWidth = 2;
-        [cell.contentView addSubview:imageProfile];
+    [cell.contentView addSubview:imageProfile];
     
     
     UILabel *labelName=[[UILabel alloc] init];
