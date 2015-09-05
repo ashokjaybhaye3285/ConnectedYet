@@ -48,12 +48,34 @@ int static kLangSpeak = 3;
         labelTopHeader.text = @"Edit Profile";
         [btnNext setTitle:@"Update" forState:UIControlStateNormal];
         
-        selectedInterest = appDelegate.userDetails.userInterest;
+        selectedInterest = appDelegate.userDetails.userInterestedIn;
         selectedRelStatusId = appDelegate.userDetails.userRelStatus;
         selectedBodytype = appDelegate.userDetails.userBodyType;
-        selectedHeightId = appDelegate.userDetails.userHeight;
         selectedLangSpeakId = @"";
+        
+        selectedHeightId = appDelegate.userDetails.userHeightId;
 
+        textSexualPreference.text = appDelegate.userDetails.userInterestedIn;
+        textRelationshipStatus.text = appDelegate.userDetails.userRelStatus;
+        textBodyType.text = appDelegate.userDetails.userBodyType;
+        textHeight.text = appDelegate.userDetails.userHeight;
+       
+        //textLanguageSpeak.text = appDelegate.userDetails.userLanguage;// Datting update gives lang name with id but normally not gives id, so crash here
+        
+        textAboutYourself.text = appDelegate.userDetails.userBiography;
+        
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        if([appDelegate.userDetails.userInterestedIn isEqualToString:@"m"] || [appDelegate.userDetails.userInterestedIn isEqualToString:@"M"])
+        {
+            btn.tag = 0;
+            [self btnGenderTapped:btn];
+        }
+        else
+        {
+            btn.tag = 1;
+            [self btnGenderTapped:btn];
+        }
+        
     }
     else
     {
@@ -135,44 +157,53 @@ int static kLangSpeak = 3;
 
 -(void)setDatingInfo
 {
-    [appDelegate startSpinner];
-    
-    loginManager = [[LoginManager alloc]init];
-    [loginManager setLoginManagerDelegate:self];
-    
-    NSMutableDictionary *dataDict = [[NSMutableDictionary alloc]init];
-    
-    if(selectedHeightId.length != 0)
-        [dataDict setValue:selectedHeightId forKey:@"height"];
-    else
-        [dataDict setValue:@"" forKey:@"height"];
+    if([MYSBaseProxy isNetworkAvailable])
+    {
+        [appDelegate startSpinner];
+        
+        loginManager = [[LoginManager alloc]init];
+        [loginManager setLoginManagerDelegate:self];
+        
+        NSMutableDictionary *dataDict = [[NSMutableDictionary alloc]init];
+        
+        NSString *_height = [NSString stringWithFormat:@"%@", selectedHeightId];
+        if(_height.length != 0)
+            [dataDict setValue:_height forKey:@"height"];
+        else
+            [dataDict setValue:@"" forKey:@"height"];
+        
+        if(selectedBodytype.length != 0)
+            [dataDict setValue:selectedBodytype forKey:@"body_type"];
+        else
+            [dataDict setValue:@"" forKey:@"body_type"];
+        
+        if(textAboutYourself.text.length != 0)
+            [dataDict setValue:textAboutYourself.text forKey:@"biography"];
+        else
+            [dataDict setValue:@"" forKey:@"biography"];
+        
+        
+        if(selectedLangSpeakId.length != 0)
+            [dataDict setValue:[[NSMutableArray alloc] initWithObjects:selectedLangSpeakId, nil] forKey:@"lang_speak"];
+        else
+            [dataDict setValue:@"" forKey:@"lang_speak"];
+        
+        if(selectedRelStatusId.length != 0)
+            [dataDict setValue:selectedRelStatusId forKey:@"relation_status"];
+        else
+            [dataDict setValue:@"" forKey:@"relation_status"];
+        
+        [dataDict setValue:selectedInterest forKey:@"interestedin"];
+        
+        [loginManager setDatingInfo:dataDict];
 
-    if(selectedBodytype.length != 0)
-        [dataDict setValue:selectedBodytype forKey:@"body_type"];
+    }
     else
-        [dataDict setValue:@"" forKey:@"body_type"];
-
-    if(textAboutYourself.text.length != 0)
-        [dataDict setValue:textAboutYourself.text forKey:@"biography"];
-    else
-        [dataDict setValue:@"" forKey:@"biography"];
-
-    
-    if(selectedLangSpeakId.length != 0)
-        [dataDict setValue:[[NSMutableArray alloc] initWithObjects:selectedLangSpeakId, nil] forKey:@"lang_speak"];
-    else
-        [dataDict setValue:@"" forKey:@"lang_speak"];
-
-    if(selectedRelStatusId.length != 0)
-        [dataDict setValue:selectedRelStatusId forKey:@"relation_status"];
-    else
-        [dataDict setValue:@"" forKey:@"relation_status"];
-    
-    [dataDict setValue:selectedInterest forKey:@"interestedin"];
-
-    
-    [loginManager setDatingInfo:dataDict];
-   
+    {
+        CustomAlertView *alert = [[CustomAlertView alloc] initWithTitle:NSLocalizedString(@"app_name", nil) contentText:NSLocalizedString(@"check_network", nil) leftButtonTitle:nil rightButtonTitle:NSLocalizedString(@"ok", nil) showsImage:NO];
+        
+        [alert show];
+    }
 
 }
 
@@ -499,6 +530,12 @@ int static kLangSpeak = 3;
     arrayHeight = appDelegate.dropDownObject.arrayHeight;
     arrayLanguageSpeak = appDelegate.dropDownObject.arrayLanguageSpeak;
 
+    /*if(isEdit)
+    {
+        selectedHeightId
+        selectedRelStatusId
+        selectedLangSpeakId
+    } */
 }
 
 -(void)successWithUpdateDattingInfo:(NSString *)_message
@@ -511,7 +548,21 @@ int static kLangSpeak = 3;
     alert.rightBlock = ^()
     {
         if(isEdit)
+        {
+            appDelegate.userDetails.userRelStatus = textRelationshipStatus.text;
+            
+            appDelegate.userDetails.userHeight = textHeight.text;
+            appDelegate.userDetails.userHeightId = [NSString stringWithFormat:@"%@", selectedHeightId];
+            
+            appDelegate.userDetails.userBodyType = textBodyType.text;
+           
+            appDelegate.userDetails.userLanguage = textLanguageSpeak.text; //Temp Change later...
+            
+            appDelegate.userDetails.userInterestedIn = selectedInterest;
+            appDelegate.userDetails.userBiography = textAboutYourself.text;
+
             [self.navigationController popViewControllerAnimated:YES];
+        }
         else
         {
             [appDelegate saveCustomObject:appDelegate.tempObject];

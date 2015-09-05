@@ -1309,7 +1309,11 @@
             NSString *strMessage = [userDict valueForKey:@"errorMsg"];
 
             if(loginManagerDelegate!=nil && [loginManagerDelegate respondsToSelector:@selector(problemForGettingResponse:)])
-                [loginManagerDelegate problemForGettingResponse:strMessage];
+                if(strMessage.length !=0)
+                    [loginManagerDelegate problemForGettingResponse:strMessage];
+                else
+                    [loginManagerDelegate problemForGettingResponse:@"Problem in data saving"];
+
             
         }
         

@@ -349,14 +349,16 @@
         }
         else if(indexPath.row == 2) // Partner Performances
         {
-            /*
+            
             PartnerPreferencesView *preference;
             if(appDelegate.iPad)
                 preference = [[PartnerPreferencesView alloc]initWithNibName:@"PartnerPreferencesView_iPad" bundle:nil];
             else
                 preference = [[PartnerPreferencesView alloc]initWithNibName:@"PartnerPreferencesView" bundle:nil];
-            */
-            
+           
+            [appDelegate.nvc pushViewController:preference animated:NO];
+
+            /*
             MatrimonyMatchView *matrimonyMatch;
             
             if(appDelegate.iPad)
@@ -365,9 +367,9 @@
                 matrimonyMatch = [[MatrimonyMatchView alloc]initWithNibName:@"MatrimonyMatchView" bundle:nil];
             
             matrimonyMatch.isCommingFromMatrimony = NO;
-            
             [appDelegate.nvc pushViewController:matrimonyMatch animated:NO];
-            
+             */
+
 
         }
         else if(indexPath.row == 3) // Logout
